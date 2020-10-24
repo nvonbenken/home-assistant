@@ -1,1 +1,25 @@
-[]
+- alias: notify_before_vacuum_run
+  trigger:
+    - platform: time
+      at: '09:00:00'
+  action:
+    service: notify.notify
+    data:
+      message: Clean up dog toys and empty the bin.
+      title: Home Automation
+      data:
+        actions:
+          - action: run_vacuum
+            title: Run Vacuum
+        priority: high
+        ttl: 0
+        
+- alias: React to vacuum notification
+  trigger:
+    - event_data:
+        action: run_vacuum
+      event_type: mobile_app_notification_action
+      platform: event
+  action:
+    - service: vacuum.start
+      entity_id: vacuum.roborock_s4
