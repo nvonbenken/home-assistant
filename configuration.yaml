@@ -1,0 +1,37 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+fastdotcom:
+  scan_interval:
+      minutes: 30
+      
+badnest:
+  issue_token: !secret nest_token
+  cookie: !secret nest_cookie
+  region: us
+
+climate:
+  - platform: badnest
+    scan_interval: 1
+    
+sensor:
+  - platform: badnest
+  
+media_player:
+  - platform: yamaha
+  
+vacuum:
+  - platform: xiaomi_miio
+    host: 192.168.1.9
+    token: !secret vacuum_token
+    name: Roborock S4
